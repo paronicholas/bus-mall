@@ -1,4 +1,5 @@
-Initial steps:
+# To Do Plan
+## Initial steps:
 * set-up wireframe for HTML and CSS
   * header
     * logo and navigation

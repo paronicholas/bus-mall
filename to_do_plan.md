@@ -41,5 +41,5 @@
 * function to randomly pick an image
   * {
     * Prevent last picked goats from being picked
-    * Math.floor ( Math.random() * array.length)
+    * Math.floor ( Math.random() * array.length )
   * }

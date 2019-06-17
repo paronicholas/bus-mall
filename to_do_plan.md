@@ -30,7 +30,6 @@
 
 ## Necessary Items
 * HTML
-  * 
 * Constructor for the Object with all the image properties
   * {
     * name

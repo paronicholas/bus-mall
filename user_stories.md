@@ -1,3 +1,4 @@
+#User Stories
 Marketing Research Team:
 * As the marketing research team, I want to know what products the customers are most interested in purchasing, so that I can create a more effectively targeted product.
 * As the marketing research team, I want to know what what products customers are least interested in purchasing, so that I can ensure they are not in the catalog.

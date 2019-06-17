@@ -42,4 +42,8 @@
   * {
     * Prevent last picked goats from being picked
     * Math.floor ( Math.random() * array.length )
+<<<<<<< HEAD
   * }
+=======
+  * }
+>>>>>>> 7b579b7f9682a16b26361fcc86d766f6c4273a59

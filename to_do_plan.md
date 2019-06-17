@@ -1,11 +1,11 @@
 Initial steps:
-1. set-up wireframe for HTML and CSS
-  1. header
-    1. logo and navigation
-  2. body
-    2. layout image placement and sizes
-  3. footer
-    3. logo and created by
+* set-up wireframe for HTML and CSS
+  * header
+    * logo and navigation
+  * body
+    * layout image placement and sizes
+  * footer
+    * logo and created by
 2. link app.js to wireframe
 3. update images to fit inside image layout for best quality
 4. develop app.js for modular functionality

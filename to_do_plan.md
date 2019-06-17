@@ -8,3 +8,9 @@ Initial steps:
     i. logo and created by
 2. link app.js to wireframe
 3. update images to fit inside image layout for best quality
+4. develop app.js for modular functionality
+  a. easy DOM manipulation
+  b. event handlers
+    i. after 25 selections, turn off listener
+    ii. provide a ranked list of percentages for each image
+  c. develop Objects to contain DOM manip and images

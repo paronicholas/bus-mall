@@ -38,8 +38,8 @@
     * times shown
     * url
   }
-  * array of all image Objects
+* array of all image Objects
 * function to randomly pick an image{
   * Prevent last picked goats from being picked
-  * Math.floor ( Math.random() * )
+  * Math.floor ( Math.random() * array.length)
 }

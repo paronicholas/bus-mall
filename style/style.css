@@ -1,0 +1,99 @@
+* {
+  box-sizing: border-box;
+  /* border: solid red 1px; */
+}
+
+header {
+  position: relative;
+  height: 95px;
+  margin-bottom: 20px;
+  background-color: #444;
+}
+
+main {
+  margin: auto;
+  position: relative;
+  width: 1050px;
+  height: 1000px;
+}
+
+footer {
+  position: relative;
+  height: 100px;
+  background-color: #444;
+  width: 100%;
+}
+
+nav {
+  margin: auto;
+  width: 1050px;
+}
+
+nav > ul {
+  position: absolute;
+  top: 50%;
+  height: 70px;
+  margin-top: -35px;
+}
+
+nav > ul > li {
+  float: left;
+  margin-bottom: 20px;
+  margin-right: 20px;
+  line-height: 70px;
+}
+
+nav > ul > li > h1 {
+  font-size: 2em;
+  margin-right: 40px;
+}
+
+li > a {
+  text-decoration: none;
+  color: #999;
+}
+
+footer > p {
+  float: right;
+  line-height: 100px;
+  padding-right: 10px;
+}
+
+main > section {
+  float: left;
+  margin-bottom: 20px;
+  /* margin-left: 10px; */
+  height: 800px;
+  /* overflow: scroll; */
+}
+
+
+#leftBox {
+  width: 200px;
+}
+
+#leftBox li {
+  font-size: 1.1em;
+}
+
+#leftBox h2 {
+  font-size: 1.5em;
+}
+
+#centerBox > div {
+  float: left;
+}
+
+#centerBox > div > h3 {
+  font-size: 1.4em;
+  text-align: center;
+}
+
+#centerBox > div > img {
+  width: 233px;
+  height: 350px;
+}
+
+#centerBox > div:nth-child(3n +2) {
+  margin: 0 20px;
+}

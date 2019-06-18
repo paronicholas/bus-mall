@@ -1,9 +1,12 @@
 'use strict';
 
 // Global Variables
-var numOfImagesOnPage = 6;
+var numOfImagesOnPage = 8;
 
 var totalCLicks = 0;
+
+// temp storage for images on page - allows for checking against previously shown images
+// in function pickImage().
 var tempArray = [];
 var itemArray = [];
 var resultUlTag = document.getElementById('clickResults');
@@ -93,13 +96,15 @@ function pickImage(numImages){
 
 function handleClickOnImage(e){
   var idNum = e.target.id;
-  ItemPicture.allImages[idNum].clicks++;
-  imageSectionTag.innerHTML = '';
-  pickImage(numOfImagesOnPage);
-  totalCLicks++;
-  if(totalCLicks === 25){
-    imageSectionTag.removeEventListener('click', handleClickOnImage);
-    renderResultsList();
+  if(ItemPicture.allImages[idNum]){
+    ItemPicture.allImages[idNum].clicks++;
+    imageSectionTag.innerHTML = '';
+    pickImage(numOfImagesOnPage);
+    totalCLicks++;
+    if(totalCLicks === 25){
+      imageSectionTag.removeEventListener('click', handleClickOnImage);
+      renderResultsList();
+    }
   }
 }
 

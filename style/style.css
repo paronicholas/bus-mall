@@ -14,7 +14,7 @@ main {
   margin: auto;
   position: relative;
   width: 1050px;
-  height: 1000px;
+  height: 720px;
 }
 
 footer {
@@ -63,8 +63,8 @@ main > section {
   float: left;
   margin-bottom: 20px;
   /* margin-left: 10px; */
-  height: 800px;
-  /* overflow: scroll; */
+  height: 700px;
+  overflow: scroll;
 }
 
 
@@ -95,8 +95,8 @@ main > section {
 }
 
 #centerBox > div > img {
-  width: 233px;
-  height: 350px;
+  width: 220px;
+  height: 300px;
 }
 
 #centerBox > div:nth-child(3n +2) {

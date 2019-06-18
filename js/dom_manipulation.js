@@ -9,10 +9,11 @@ function getUlIdTag(idName){
   return ulIdTag;
 }
 
-function getChartIdTag(idName){
-  var chartIdTag = document.getElementById(idName);
+function getChartIdTag(idName, dimension){
+  var chartIdTag = document.getElementById(idName).getContext(dimension);
   return chartIdTag;
 }
+
 
 // setter tags
 function setDivTag(){

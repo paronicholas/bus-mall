@@ -13,7 +13,7 @@ header {
 main {
   margin: auto;
   position: relative;
-  width: 1050px;
+  width: 960px;
   height: 720px;
 }
 
@@ -26,7 +26,7 @@ footer {
 
 nav {
   margin: auto;
-  width: 1050px;
+  width: 960px;
 }
 
 nav > ul {
@@ -81,7 +81,7 @@ main > section {
 }
 
 #centerBox {
-  width: 850px;
+  width: 960px;
 }
 
 #centerBox > div {
@@ -95,8 +95,8 @@ main > section {
 }
 
 #centerBox > div > img {
-  width: 220px;
-  height: 300px;
+  width: 300px;
+  /* height: 300px; */
 }
 
 #centerBox > div:nth-child(3n +2) {

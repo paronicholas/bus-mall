@@ -1,41 +1,66 @@
 'use strict';
 
-// globals
-// DOM set-up
+// Global Variables
+var numOfImagesOnPage = 6;
+
+var totalCLicks = 0;
+var tempArray = [];
+var itemArray = [];
+var picOnPage = []; // stores pictures on the page
 var resultUlTag = document.getElementById('clickResults');
 var imageSectionTag = document.getElementById('centerBox');
-var leftImageTag = document.getElementById('leftImageImg');
-var centerImageTag = document.getElementById('centerImageImg');
-var rightImageTag = document.getElementById('rightImageImg');
-var leftImageH3 = document.getElementById('leftImageH3');
-var centerImageH3 = document.getElementById('centerImageH3');
-var rightImageH3 = document.getElementById('rightImageH3');
-
-// temp variables for storing index of previously displayed items
-var tempLeft;
-var tempCenter;
-var tempRight;
-var tempArray = [];
-
-// variables to store picture on the page
-var leftPicOnPage = null;
-var centerPicOnPage = null;
-var rightPicOnPage = null;
-
-var totalClicks = 0;
 
 // Constructor
 function ItemPicture(name, imageSrc){
   this.name = name;
-  this.imgId = name.toLowerCase();
   this.clicks = 0;
   this.timesShown = 0;
   this.url = imageSrc;
 
   ItemPicture.allImages.push(this);
 }
-
 ItemPicture.allImages = [];
+
+// Random Number Generator
+function randomNumGen(min, max){
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function indexGenerator(){
+  var indexGen = randomNumGen(0, ItemPicture.allImages.length - 1);
+  return indexGen;
+}
+
+// DOM
+function setDivTag(){
+  var divTag = document.createElement('div');
+  return divTag;
+}
+
+function setImageTag(){
+  var imageTag = document.createElement('img');
+  return imageTag;
+}
+
+function setImageH3(){
+  var imageH3 = document.createElement('h3');
+  return imageH3;
+}
+
+// Rendering Functions
+function renderNewImage(imageIndex){
+  var divTag = setDivTag();
+  var imageTag = setImageTag();
+  var imageH3 = setImageH3();
+  imageTag.src = ItemPicture.allImages[imageIndex].url;
+  imageTag.setAttribute('id', imageIndex);
+  divTag.appendChild(imageTag);
+  imageH3.textContent = ItemPicture.allImages[imageIndex].name;
+  divTag.appendChild(imageH3);
+  imageSectionTag.appendChild(divTag);
+}
 
 function renderResultsList(){
   var clickPercent = 0;
@@ -52,79 +77,41 @@ function renderResultsList(){
   }
 }
 
-function renderNewImage(leftIndex, centerIndex, rightIndex){
-  leftImageTag.src = ItemPicture.allImages[leftIndex].url;
-  leftImageH3.textContent = ItemPicture.allImages[leftIndex].name;
-  centerImageTag.src = ItemPicture.allImages[centerIndex].url;
-  centerImageH3.textContent = ItemPicture.allImages[centerIndex].name;
-  rightImageTag.src = ItemPicture.allImages[rightIndex].url;
-  rightImageH3.textContent = ItemPicture.allImages[rightIndex].name;
-
-}
-
-// Random number generator and index assigners
-function randomNumGen(min, max){
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
-function leftIndexGen(){
-  var leftIndex = randomNumGen(0, ItemPicture.allImages.length - 1);
-  return leftIndex;
-}
-
-function centerIndexGen(){
-  var centerIndex = randomNumGen(0, ItemPicture.allImages.length - 1);
-  return centerIndex;
-}
-
-function rightIndexGen(){
-  var rightIndex = randomNumGen(0, ItemPicture.allImages.length - 1);
-  return rightIndex;
-}
-
-function pickImage(){
-  do {
-    var leftIndex = leftIndexGen();
-  } while(tempArray.includes(leftIndex));
-  do {
-    var centerIndex = centerIndexGen();
-  } while(centerIndex === leftIndex || tempArray.includes(centerIndex));
-  do {
-    var rightIndex = rightIndexGen();
-  } while(rightIndex === leftIndex || rightIndex === centerIndex || tempArray.includes(rightIndex));
-  tempLeft = leftIndex;
-  tempCenter = centerIndex;
-  tempRight = rightIndex;
-
-  tempArray = [tempLeft, tempCenter, tempRight];
-
-  leftPicOnPage = ItemPicture.allImages[leftIndex];
-  centerPicOnPage = ItemPicture.allImages[centerIndex];
-  rightPicOnPage = ItemPicture.allImages[rightIndex];
-
-  renderNewImage(leftIndex, centerIndex, rightIndex);
-}
-
-function handleClickOnImage(e){
-  if(e.target.id === 'leftImageImg' || e.target.id === 'centerImageImg' || e.target.id === 'rightImageImg'){
-    if(e.target.id === 'leftImageImg'){
-      leftPicOnPage.clicks++;
-    } else if(e.target.id === 'centerImageImg'){
-      centerPicOnPage.clicks++;
-    } else{
-      rightPicOnPage.clicks++;
-    }
-    leftPicOnPage.timesShown++;
-    centerPicOnPage.timesShown++;
-    rightPicOnPage.timesShown++;
-    pickImage();
+// Handle Functions
+// TODO: eliminate duplicates after first run of images
+function pickImage(numImages){
+  for(let i=0; i<numImages; i++){
+    console.log('tempArray:', tempArray);
+    do {
+      var imageIndex = indexGenerator();
+      console.log(imageIndex);
+    } while(tempArray.includes(imageIndex));
+    itemArray.push(imageIndex);
+    tempArray = itemArray;
+    picOnPage.push(ItemPicture.allImages[imageIndex]);
+    ItemPicture.allImages[imageIndex].timesShown++;
+    renderNewImage(imageIndex);
   }
-  totalClicks++;
-  if(totalClicks === 25){
+  itemArray = [];
+  // console.log('itemArray:', itemArray);
+  // console.log('tempArray:', tempArray);
+
+}
+
+// TODO: add click++ functionality
+function handleClickOnImage(e){
+  var idNum = e.target.id;
+  console.log('idNumber clicked on:', idNum);
+  if(e.target.id === picOnPage[0]){
+    console.log('yay');
+
+  }
+  imageSectionTag.innerHTML = '';
+  pickImage(numOfImagesOnPage);
+  totalCLicks++;
+  // TODO: change totalClicks === 25
+  if(totalCLicks === 3){
     imageSectionTag.removeEventListener('click', handleClickOnImage);
-    // imageSectionTag.innerHTML = '';
     renderResultsList();
   }
 }
@@ -155,7 +142,7 @@ function startApp(){
   new ItemPicture('Wine Glass', './img/wine-glass.jpg');
 
   imageSectionTag.addEventListener('click', handleClickOnImage);
-  pickImage();
+  pickImage(numOfImagesOnPage);
 }
 
 startApp();

@@ -6,7 +6,6 @@ var numOfImagesOnPage = 6;
 var totalCLicks = 0;
 var tempArray = [];
 var itemArray = [];
-var picOnPage = []; // stores pictures on the page
 var resultUlTag = document.getElementById('clickResults');
 var imageSectionTag = document.getElementById('centerBox');
 
@@ -78,39 +77,27 @@ function renderResultsList(){
 }
 
 // Handle Functions
-// TODO: eliminate duplicates after first run of images
 function pickImage(numImages){
   for(let i=0; i<numImages; i++){
-    console.log('tempArray:', tempArray);
     do {
       var imageIndex = indexGenerator();
-      console.log(imageIndex);
-    } while(tempArray.includes(imageIndex));
+    } while(tempArray.includes(imageIndex) || itemArray.includes(imageIndex));
     itemArray.push(imageIndex);
-    tempArray = itemArray;
-    picOnPage.push(ItemPicture.allImages[imageIndex]);
     ItemPicture.allImages[imageIndex].timesShown++;
     renderNewImage(imageIndex);
   }
+  tempArray = itemArray;
   itemArray = [];
-  // console.log('itemArray:', itemArray);
-  // console.log('tempArray:', tempArray);
 
 }
 
-// TODO: add click++ functionality
 function handleClickOnImage(e){
   var idNum = e.target.id;
-  console.log('idNumber clicked on:', idNum);
-  if(e.target.id === picOnPage[0]){
-    console.log('yay');
-
-  }
+  ItemPicture.allImages[idNum].clicks++;
   imageSectionTag.innerHTML = '';
   pickImage(numOfImagesOnPage);
   totalCLicks++;
-  // TODO: change totalClicks === 25
-  if(totalCLicks === 3){
+  if(totalCLicks === 25){
     imageSectionTag.removeEventListener('click', handleClickOnImage);
     renderResultsList();
   }

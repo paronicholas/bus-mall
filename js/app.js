@@ -1,7 +1,7 @@
 'use strict';
 
 // Global Variables
-var numOfImagesOnPage = 4;
+var numOfImagesOnPage = 3;
 var totalCLicks = 0;
 var maxClicks = 25;
 
@@ -10,8 +10,12 @@ var maxClicks = 25;
 var previousItemArray = [];
 var currentItemArray = [];
 
+// random color array for rgba colors
+var randomColorArray = [];
+
 // Global DOM elements - import from dom_manipulation.js
 var resultUlTag = getUlIdTag('clickResults');
+var resultSectionTag = getSectionIdTag('leftBox');
 var imageSectionTag = getSectionIdTag('centerBox');
 
 // Constructor
@@ -67,23 +71,54 @@ function renderImage(imageIndex){
   imageSectionTag.appendChild(divTag);
 }
 
-function renderResultsList(){
-  var clickPercent, liEl;
-  for(let i = 0; i < ItemPicture.allImages.length; i++){
-    liEl = document.createElement('li');
-    if(ItemPicture.allImages[i].timesClicked === 0 && ItemPicture.allImages[i].timesShown === 0){
-      clickPercent = 0;
+function renderResultsChart(){
+  var percentageArray = [], nameArray = [], clickPercent;
+  for(let i=0; i<ItemPicture.allImages.length; i++){
+    if(ItemPicture.allImages[i].timesClicked === 0 && ItemPicture.allImages[i].timesShown === 0) {
+      clickPercent =0;
     } else{
       clickPercent = (ItemPicture.allImages[i].timesClicked / ItemPicture.allImages[i].timesShown) * 100;
     }
-    clickPercent = clickPercent.toFixed(2);
-    liEl.textContent = ItemPicture.allImages[i].name + ' : ' + clickPercent + '%';
-    resultUlTag.appendChild(liEl);
+    randomColorArray.push(random_rgba());
+    clickPercent = clickPercent.toFixed(2); // sets two decimal points
+    percentageArray.push(clickPercent);
+    nameArray.push(ItemPicture.allImages[i].name);
   }
+
+  var ctx = document.getElementById('resultsChart').getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'polarArea',
+    data: {
+      labels: nameArray,
+      datasets: [{
+        // label: 'Percent of Votes (times clicked / times shown)',
+        data: percentageArray,
+        backgroundColor: randomColorArray,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        position: 'top',
+        text: 'Percent of Votes'
+      },
+      legend: {
+        position: 'bottom'
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
 }
 
 // Handle Functions
-function pickImage(numImages){
+function handlePickImage(numImages){
   for(let i=0; i<numImages; i++){
     do {
       var imageIndex = indexGenerator();
@@ -102,12 +137,12 @@ function handleClickOnImage(e){
   if(ItemPicture.allImages[idNum]){
     ItemPicture.allImages[idNum].timesClicked++;
     imageSectionTag.innerHTML = '';
-    pickImage(numOfImagesOnPage);
+    handlePickImage(numOfImagesOnPage);
     totalCLicks++;
+    renderResultsChart();
     if(totalCLicks === maxClicks){
       imageSectionTag.removeEventListener('click', handleClickOnImage);
-      imageSectionTag.innerHTML = ''; // clears the images from the HTML section to allow new item to be placed
-      renderResultsList();
+      renderResultsChart();
     }
   }
 }
@@ -116,7 +151,8 @@ function handleClickOnImage(e){
 function initPage(){
   buildItemPicture();
   imageSectionTag.addEventListener('click', handleClickOnImage);
-  pickImage(numOfImagesOnPage);
+  handlePickImage(numOfImagesOnPage);
+  renderResultsChart();
 }
 
 initPage();

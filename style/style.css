@@ -7,26 +7,30 @@ header {
   position: relative;
   height: 95px;
   margin-bottom: 20px;
-  background-color: #444;
+  background-color: #201d57;
+}
+
+body {
+  background-color: honeydew;
 }
 
 main {
   margin: auto;
   position: relative;
-  width: 960px;
-  height: 720px;
+  width: 1060px;
+  height: 620px;
 }
 
 footer {
   position: relative;
   height: 100px;
-  background-color: #444;
+  background-color: #201d57;
   width: 100%;
 }
 
 nav {
   margin: auto;
-  width: 960px;
+  width: 1060px;
 }
 
 nav > ul {
@@ -41,6 +45,12 @@ nav > ul > li {
   margin-bottom: 20px;
   margin-right: 20px;
   line-height: 70px;
+  color: whitesmoke;
+}
+
+nav > ul > li > img {
+  width: 200px;
+  height: 70px;
 }
 
 nav > ul > li > h1 {
@@ -57,19 +67,20 @@ footer > p {
   float: right;
   line-height: 100px;
   padding-right: 10px;
+  color: whitesmoke;
 }
 
 main > section {
   float: left;
   margin-bottom: 20px;
   /* margin-left: 10px; */
-  height: 700px;
+  height: 600px;
   overflow: scroll;
 }
 
 
 #leftBox {
-  width: 200px;
+  width: 400px;
 }
 
 #leftBox li {
@@ -81,7 +92,8 @@ main > section {
 }
 
 #centerBox {
-  width: 760px;
+  width: 640px;
+  margin-left: 20px;
 }
 
 #centerBox > div {
@@ -96,7 +108,7 @@ main > section {
 
 #centerBox > div > img {
   width: 200px;
-  height: 300px;
+  height: 200px;
 }
 
 #centerBox > div:nth-child(3n +2) {

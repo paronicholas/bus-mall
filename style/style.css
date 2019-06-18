@@ -81,7 +81,7 @@ main > section {
 }
 
 #centerBox {
-  width: 960px;
+  width: 760px;
 }
 
 #centerBox > div {
@@ -95,8 +95,8 @@ main > section {
 }
 
 #centerBox > div > img {
-  width: 300px;
-  /* height: 300px; */
+  width: 200px;
+  height: 300px;
 }
 
 #centerBox > div:nth-child(3n +2) {

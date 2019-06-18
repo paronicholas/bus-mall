@@ -1,7 +1,7 @@
 'use strict';
 
 // Global Variables
-var numOfImagesOnPage = 3;
+var numOfImagesOnPage = 4;
 var totalCLicks = 0;
 var maxClicks = 25;
 

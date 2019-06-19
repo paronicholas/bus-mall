@@ -12,20 +12,24 @@ header {
 
 body {
   background-color: honeydew;
+  
 }
 
 main {
   margin: auto;
   position: relative;
   width: 1060px;
-  height: 620px;
+  min-height: 100%;
 }
 
 footer {
-  position: relative;
+  position: fixed;
   height: 100px;
   background-color: #201d57;
   width: 100%;
+  left: 0;
+  bottom: 0;
+  overflow: hidden;
 }
 
 nav {
@@ -73,11 +77,22 @@ footer > p {
 main > section {
   float: left;
   margin-bottom: 20px;
-  /* margin-left: 10px; */
-  height: 600px;
-  overflow: scroll;
+  overflow: auto;
 }
 
+main > h1 {
+  font-size: 2em;
+  text-align: right;
+  color: #444;
+  margin-bottom: 5px;
+}
+
+main > p {
+  font-size: 1.1em;
+  text-align: right;
+  color: #444;
+  margin-bottom: 20px;
+}
 
 #leftBox {
   width: 400px;
@@ -94,6 +109,7 @@ main > section {
 #centerBox {
   width: 640px;
   margin-left: 20px;
+  margin-bottom: 100px;
 }
 
 #centerBox > div {

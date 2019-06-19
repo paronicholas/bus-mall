@@ -56,7 +56,7 @@ function generateIndex(){
 }
 
 function generateResults(){
-  var allResultsArray = [], percentageArray = [], nameArray = [], clickPercent;
+  var allResultsArray = [], percentageArray = [], nameArray = [], clicksArray = [], shownArray = [], clickPercent;
   for(let i=0; i<ItemPicture.allImages.length; i++){
     if(ItemPicture.allImages[i].timesClicked === 0 && ItemPicture.allImages[i].timesShown === 0) {
       clickPercent =0;
@@ -64,11 +64,13 @@ function generateResults(){
       clickPercent = (ItemPicture.allImages[i].timesClicked / ItemPicture.allImages[i].timesShown) * 100;
     }
     clickPercent = clickPercent.toFixed(2); // sets two decimal points
-    percentageArray.push(clickPercent);
     nameArray.push(ItemPicture.allImages[i].name);
+    percentageArray.push(clickPercent);
     randomColorArray.push(random_rgba());
+    clicksArray.push(ItemPicture.allImages[i].timesClicked);
+    shownArray.push(ItemPicture.allImages[i].timesShown);
   }
-  allResultsArray.push(nameArray, percentageArray, randomColorArray);
+  allResultsArray.push(nameArray, percentageArray, randomColorArray, clicksArray, shownArray);
   return allResultsArray;
 }
 
@@ -88,13 +90,15 @@ function renderImage(imageIndex){
 
 function renderResultsChart(){
   var resultsArray = generateResults();
+  var percentage = resultsArray[1];
+  var clicked = resultsArray[3];
+  var shown = resultsArray[4];
   var ctx = document.getElementById('resultsChart').getContext('2d');
   var myChart = new Chart(ctx, {
-    type: 'polarArea',
+    type: 'bar',
     data: {
       labels: resultsArray[0],
       datasets: [{
-        // label: 'Percent of Votes (times clicked / times shown)',
         data: resultsArray[1],
         backgroundColor: resultsArray[2],
         borderWidth: 1
@@ -104,9 +108,10 @@ function renderResultsChart(){
       title: {
         display: true,
         position: 'top',
-        text: 'Percent of Votes'
+        text: 'User Selection Votes'
       },
       legend: {
+        display: false,
         position: 'bottom'
       },
       scales: {
@@ -115,6 +120,19 @@ function renderResultsChart(){
             beginAtZero: true
           }
         }]
+      },
+      tooltips: {
+        mode: 'label',
+        callbacks: {
+          label: function(tooltipItem){
+            let displayed = `Percent Clicked: ${percentage[tooltipItem.index]}%`;
+            return displayed;
+          },
+          afterLabel: function(tooltipItem){
+            let displayed = `Times Clicked: ${clicked[tooltipItem.index]} and Times Shown: ${shown[tooltipItem.index]}`;
+            return displayed;
+          }
+        }
       }
     }
   });

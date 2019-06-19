@@ -1,3 +1,5 @@
+'use strict';
+
 // Inclusive Random Number Generator
 function randomInclusiveNumGen(min, max){
   min = Math.ceil(min);

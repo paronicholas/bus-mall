@@ -1,3 +1,5 @@
+'use strict';
+
 // getter tags
 function getSectionIdTag(idName){
   var sectionIdTag = document.getElementById(idName);

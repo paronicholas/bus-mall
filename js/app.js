@@ -5,8 +5,7 @@ var numOfImagesOnPage = 3;
 var totalCLicks = 0;
 var maxClicks = 25;
 
-// temp storage for images on page - allows for checking against previously shown images
-// in function pickImage().
+// temp storage for images on page
 var previousItemArray = [];
 var currentItemArray = [];
 
@@ -14,8 +13,6 @@ var currentItemArray = [];
 var randomColorArray = [];
 
 // Global DOM elements - import from dom_manipulation.js
-var resultUlTag = getUlIdTag('clickResults');
-var resultSectionTag = getSectionIdTag('leftBox');
 var imageSectionTag = getSectionIdTag('centerBox');
 
 // Constructor
@@ -52,16 +49,34 @@ function buildItemPicture(){
   new ItemPicture('Wine Glass', './img/wine-glass.jpg');
 }
 
-function indexGenerator(){
+// Generator functions
+function generateIndex(){
   var indexGen = randomInclusiveNumGen(0, ItemPicture.allImages.length - 1);
   return indexGen;
 }
 
+function generateResults(){
+  var allResultsArray = [], percentageArray = [], nameArray = [], clickPercent;
+  for(let i=0; i<ItemPicture.allImages.length; i++){
+    if(ItemPicture.allImages[i].timesClicked === 0 && ItemPicture.allImages[i].timesShown === 0) {
+      clickPercent =0;
+    } else{
+      clickPercent = (ItemPicture.allImages[i].timesClicked / ItemPicture.allImages[i].timesShown) * 100;
+    }
+    clickPercent = clickPercent.toFixed(2); // sets two decimal points
+    percentageArray.push(clickPercent);
+    nameArray.push(ItemPicture.allImages[i].name);
+    randomColorArray.push(random_rgba());
+  }
+  allResultsArray.push(nameArray, percentageArray, randomColorArray);
+  return allResultsArray;
+}
+
 // Rendering Functions
 function renderImage(imageIndex){
-  var divTag = setDivTag();
-  var imageTag = setImageTag();
-  var imageH3 = setH3Tag();
+  var divTag = createDivTag();
+  var imageTag = createImageTag();
+  var imageH3 = createH3Tag();
 
   imageTag.src = ItemPicture.allImages[imageIndex].url;
   imageTag.setAttribute('id', imageIndex);
@@ -72,28 +87,16 @@ function renderImage(imageIndex){
 }
 
 function renderResultsChart(){
-  var percentageArray = [], nameArray = [], clickPercent;
-  for(let i=0; i<ItemPicture.allImages.length; i++){
-    if(ItemPicture.allImages[i].timesClicked === 0 && ItemPicture.allImages[i].timesShown === 0) {
-      clickPercent =0;
-    } else{
-      clickPercent = (ItemPicture.allImages[i].timesClicked / ItemPicture.allImages[i].timesShown) * 100;
-    }
-    randomColorArray.push(random_rgba());
-    clickPercent = clickPercent.toFixed(2); // sets two decimal points
-    percentageArray.push(clickPercent);
-    nameArray.push(ItemPicture.allImages[i].name);
-  }
-
+  var resultsArray = generateResults();
   var ctx = document.getElementById('resultsChart').getContext('2d');
   var myChart = new Chart(ctx, {
     type: 'polarArea',
     data: {
-      labels: nameArray,
+      labels: resultsArray[0],
       datasets: [{
         // label: 'Percent of Votes (times clicked / times shown)',
-        data: percentageArray,
-        backgroundColor: randomColorArray,
+        data: resultsArray[1],
+        backgroundColor: resultsArray[2],
         borderWidth: 1
       }]
     },
@@ -119,9 +122,10 @@ function renderResultsChart(){
 
 // Handle Functions
 function handlePickImage(numImages){
+  var imageIndex;
   for(let i=0; i<numImages; i++){
     do {
-      var imageIndex = indexGenerator();
+      imageIndex = generateIndex();
     } while(previousItemArray.includes(imageIndex) || currentItemArray.includes(imageIndex));
     currentItemArray.push(imageIndex);
     ItemPicture.allImages[imageIndex].timesShown++;

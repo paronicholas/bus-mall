@@ -150,7 +150,7 @@ function renderResultsChart(){
             let displayed = `Times Shown: ${shown[tooltipItem.index]}`;
             return displayed;
           }
-        }
+        },
       }
     }
   });

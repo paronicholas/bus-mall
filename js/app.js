@@ -2,7 +2,7 @@
 
 // Global Variables
 var numOfImagesOnPage = 3;
-var totalCLicks = 0;
+var totalClicks = 0;
 var maxClicks = 25;
 
 // temp storage for images on page
@@ -15,12 +15,19 @@ var randomColorArray = [];
 // Global DOM elements - import from dom_manipulation.js
 var imageSectionTag = getSectionIdTag('centerBox');
 
+// Local Storage
+var getTotalClicks = JSON.parse(localStorage.getItem('clickStorage'));
+totalClicks = getTotalClicks < maxClicks ? getTotalClicks : 0;
+
+var getItemPicture = JSON.parse(localStorage.getItem('ItemPicture'));
+
 // Constructor
 function ItemPicture(name, imageSrc, timesClicked, timesShown){
   this.name = name;
   this.url = imageSrc ? imageSrc : 'https://placehold.it/220x300/111';
   this.timesClicked = timesClicked ? timesClicked : 0;
   this.timesShown = timesShown ? timesShown : 0;
+  this.graphColor = random_rgba();
 
   ItemPicture.allImages.push(this);
 }
@@ -66,7 +73,7 @@ function generateResults(){
     clickPercent = clickPercent.toFixed(2); // sets two decimal points
     nameArray.push(ItemPicture.allImages[i].name);
     percentageArray.push(clickPercent);
-    randomColorArray.push(random_rgba());
+    randomColorArray.push(ItemPicture.allImages[i].graphColor);
     clicksArray.push(ItemPicture.allImages[i].timesClicked);
     shownArray.push(ItemPicture.allImages[i].timesShown);
   }
@@ -90,17 +97,20 @@ function renderImage(imageIndex){
 
 function renderResultsChart(){
   var resultsArray = generateResults();
+  var name = resultsArray[0];
   var percentage = resultsArray[1];
+  var barColor = resultsArray[2];
   var clicked = resultsArray[3];
   var shown = resultsArray[4];
+  
   var ctx = document.getElementById('resultsChart').getContext('2d');
   var myChart = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: resultsArray[0],
+      labels: name,
       datasets: [{
-        data: resultsArray[1],
-        backgroundColor: resultsArray[2],
+        data: percentage,
+        backgroundColor: barColor,
         borderWidth: 1
       }]
     },
@@ -123,6 +133,10 @@ function renderResultsChart(){
       },
       tooltips: {
         mode: 'label',
+        custom: function(tooltip){
+          if (!tooltip) return;
+          tooltip.displayColors = false;
+        },
         callbacks: {
           beforeLabel: function(tooltipItem){
             let displayed = `Percent Clicked: ${percentage[tooltipItem.index]}%`;
@@ -136,10 +150,6 @@ function renderResultsChart(){
             let displayed = `Times Shown: ${shown[tooltipItem.index]}`;
             return displayed;
           }
-        },
-        custom: function(tooltip){
-          if (!tooltip) return;
-          tooltip.displayColors = false;
         }
       }
     }
@@ -165,13 +175,16 @@ function handleClickOnImage(e){
   var idNum = e.target.id;
   // handles if no image is clicked, only increments if image is clicked
   if(ItemPicture.allImages[idNum]){
-    ItemPicture.allImages[idNum].timesClicked++;
-    imageSectionTag.innerHTML = '';
-    handlePickImage(numOfImagesOnPage);
-    totalCLicks++;
-    renderResultsChart();
-    if(totalCLicks === maxClicks){
+    if(totalClicks >= maxClicks){
       imageSectionTag.removeEventListener('click', handleClickOnImage);
+      renderResultsChart();
+    } else {
+      ItemPicture.allImages[idNum].timesClicked++;
+      imageSectionTag.innerHTML = '';
+      handlePickImage(numOfImagesOnPage);
+      totalClicks++;
+      localStorage.setItem('clickStorage', JSON.stringify(totalClicks));
+      localStorage.setItem('ItemPicture', JSON.stringify(ItemPicture.allImages));
       renderResultsChart();
     }
   }
@@ -180,6 +193,8 @@ function handleClickOnImage(e){
 // APP INITIALIZER
 function initPage(){
   buildItemPicture();
+  ItemPicture.allImages = getTotalClicks < maxClicks ? getItemPicture : ItemPicture.allImages;
+  console.log(ItemPicture.allImages);
   imageSectionTag.addEventListener('click', handleClickOnImage);
   handlePickImage(numOfImagesOnPage);
   renderResultsChart();

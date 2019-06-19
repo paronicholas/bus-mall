@@ -124,14 +124,22 @@ function renderResultsChart(){
       tooltips: {
         mode: 'label',
         callbacks: {
-          label: function(tooltipItem){
+          beforeLabel: function(tooltipItem){
             let displayed = `Percent Clicked: ${percentage[tooltipItem.index]}%`;
             return displayed;
           },
+          label: function(tooltipItem){
+            let displayed = `Times Clicked: ${clicked[tooltipItem.index]}`;
+            return displayed;
+          },
           afterLabel: function(tooltipItem){
-            let displayed = `Times Clicked: ${clicked[tooltipItem.index]} and Times Shown: ${shown[tooltipItem.index]}`;
+            let displayed = `Times Shown: ${shown[tooltipItem.index]}`;
             return displayed;
           }
+        },
+        custom: function(tooltip){
+          if (!tooltip) return;
+          tooltip.displayColors = false;
         }
       }
     }

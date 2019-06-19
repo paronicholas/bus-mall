@@ -123,6 +123,10 @@ function renderResultsChart(){
       },
       tooltips: {
         mode: 'label',
+        custom: function(tooltip){
+          if (!tooltip) return;
+          tooltip.displayColors = false;
+        },
         callbacks: {
           beforeLabel: function(tooltipItem){
             let displayed = `Percent Clicked: ${percentage[tooltipItem.index]}%`;
@@ -137,10 +141,6 @@ function renderResultsChart(){
             return displayed;
           }
         },
-        custom: function(tooltip){
-          if (!tooltip) return;
-          tooltip.displayColors = false;
-        }
       }
     }
   });

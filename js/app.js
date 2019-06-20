@@ -1,4 +1,5 @@
 'use strict';
+/*global randomInclusiveNumGen random_rgba createDivTag createImageTag createH3Tag */
 
 // Global Variables
 var numOfImagesOnPage = 3;
@@ -13,7 +14,7 @@ var currentItemArray = [];
 var randomColorArray = [];
 
 // Global DOM elements - import from dom_manipulation.js
-var imageSectionTag = getSectionIdTag('centerBox');
+var imageSectionTag = getSectionIdTag('centerBox'); // eslint-disable-line
 
 // Local Storage
 var getTotalClicks = JSON.parse(localStorage.getItem('clickStorage'));
@@ -27,7 +28,7 @@ function ItemPicture(name, imageSrc, timesClicked, timesShown){
   this.url = imageSrc ? imageSrc : 'https://placehold.it/220x300/111';
   this.timesClicked = timesClicked ? timesClicked : 0;
   this.timesShown = timesShown ? timesShown : 0;
-  this.graphColor = random_rgba();
+  this.graphColor = random_rgba(); // eslint-disable-line
 
   ItemPicture.allImages.push(this);
 }

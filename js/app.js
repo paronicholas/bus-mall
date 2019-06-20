@@ -1,5 +1,5 @@
 'use strict';
-/*global randomInclusiveNumGen createDivTag createImageTag createH3Tag ItemPicture Chart buildItemPicture*/
+/*global randomInclusiveNumGen getSectionIdTag createDivTag createImageTag createH3Tag ItemPicture Chart buildItemPicture*/
 
 // Global Variables
 var numOfImagesOnPage = 3;
@@ -14,7 +14,7 @@ var currentItemArray = [];
 var randomColorArray = [];
 
 // Global DOM elements - import from dom_manipulation.js
-var imageSectionTag = getSectionIdTag('centerBox'); // eslint-disable-line
+var imageSectionTag = getSectionIdTag('centerBox');
 
 // Local Storage
 var getTotalClicks = JSON.parse(localStorage.getItem('clickStorage'));

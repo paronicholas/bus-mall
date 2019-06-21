@@ -159,7 +159,11 @@ function handleClickOnImage(e){
 // APP INITIALIZER
 function initPage(){
   buildItemPicture();
-  ItemPicture.allImages = getTotalClicks < maxClicks ? getItemPicture : ItemPicture.allImages;
+  if (localStorage.length === 0){
+    ItemPicture.allImages;
+  } else{
+    ItemPicture.allImages = getTotalClicks < maxClicks ? getItemPicture : ItemPicture.allImages;
+  }
   imageSectionTag.addEventListener('click', handleClickOnImage);
   handlePickImage(numOfImagesOnPage);
   renderResultsChart();
